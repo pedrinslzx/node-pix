@@ -1,0 +1,19 @@
+{
+  "name": "pix-payload",
+  "version": "0.0.1",
+  "description": "Generate and parse the pix qrcode payload ",
+  "main": "dist/index.js",
+  "repository": "https://github.com/pedrinholemes/pix-br.git",
+  "author": "Pedrinho Lemes <pedroca21265@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test:dev": "jest --watchAll",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.5",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.4"
+  }
+}
