@@ -1,0 +1,33 @@
+export const IDS = Object.freeze({
+  ID_PAYLOAD_FORMAT_INDICATOR: '00',
+  ID_MERCHANT_ACCOUNT_INFORMATION: '26',
+  ID_MERCHANT_ACCOUNT_INFORMATION_GUI: '00',
+  ID_MERCHANT_ACCOUNT_INFORMATION_KEY: '01',
+  ID_MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION: '02',
+  ID_MERCHANT_CATEGORY_CODE: '52',
+  ID_TRANSACTION_CURRENCY: '53',
+  ID_TRANSACTION_AMOUNT: '54',
+  ID_COUNTRY_CODE: '58',
+  ID_MERCHANT_NAME: '59',
+  ID_MERCHANT_CITY: '60',
+  ID_ADDITIONAL_DATA_FIELD_TEMPLATE: '62',
+  ID_ADDITIONAL_DATA_FIELD_TEMPLATE_TXID: '05',
+  ID_CRC16: '63'
+})
+
+export const DEFAULT_MERCHANT_GUI = 'br.gov.bcb.pix'
+export const DEFAULT_TXID = '***'
+
+export const FIELD_CONFIG: Record<number | string, {
+  name: string,
+  hasBody: boolean
+} | undefined> = {
+  26: {
+    name: 'MERCHANT_ACCOUNT_INFORMATION',
+    hasBody: true
+  },
+  62: {
+    name: 'ADDITIONAL_DATA_FIELD_TEMPLATE',
+    hasBody: true
+  }
+}
