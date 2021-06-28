@@ -12,7 +12,8 @@
     "test": "jest",
     "lint:eslint": "eslint --fix src/**/*.ts __tests__/**/*.ts",
     "lint:prettier": "prettier --write **/*.{js,ts,json,md}",
-    "lint": "npm-run-all lint:**"
+    "lint": "npm-run-all lint:**",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
@@ -25,8 +26,10 @@
     "eslint-plugin-import-helpers": "^1.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "husky": "^6.0.0",
     "jest": "^27.0.5",
     "npm-run-all": "^4.1.5",
+    "pinst": "^2.1.6",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.4"
