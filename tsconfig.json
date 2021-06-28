@@ -6,7 +6,13 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "removeComments": false,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["node_modules", "__tests__"],
+  "include": ["src"]
 }
