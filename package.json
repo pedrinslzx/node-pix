@@ -1,6 +1,6 @@
 {
   "name": "pix-payload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate and parse the pix qrcode payload ",
   "main": "dist/index.js",
   "repository": "https://github.com/pedrinholemes/pix-br.git",
