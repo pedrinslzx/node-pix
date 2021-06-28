@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "jest --watchAll",
-    "build": "tsc .",
+    "build": "tsc",
     "test": "jest",
     "lint:eslint": "eslint --fix src/**/*.ts __tests__/**/*.ts",
     "lint:prettier": "prettier --write **/*.{js,ts,json,md}",

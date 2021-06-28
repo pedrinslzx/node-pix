@@ -4,6 +4,5 @@ test('should be return a Payload, Field, Utils and constants when import this mo
   expect(module).toHaveProperty('Field')
   expect(module).toHaveProperty('Utils')
   expect(module).toHaveProperty('constants')
-  expect(module).toHaveProperty('version')
   expect(module).toHaveProperty('default')
 })
