@@ -21,7 +21,7 @@ yarn add pix-payload
 const Payload = require('pix-payload')
 /* or with ES Modules */
 import Payload from 'pix-payload'
-/* or using named expor */
+/* or using named export */
 import { Payload } from 'pix-payload'
 
 const payload = Payload.generate({
