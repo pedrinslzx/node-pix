@@ -1,5 +1,5 @@
-import { Field, ParsedField } from './Field'
 import { DEFAULT_MERCHANT_GUI, DEFAULT_TXID, IDS } from './constants'
+import { Field, ParsedField } from './Field'
 import { Utils } from './Utils'
 
 interface ParsedPayload {
@@ -11,7 +11,24 @@ interface GeneratePayloadOptions {
   GUI?: string
   countryCode?: 'BR' | string
   transactionCurrency?: '986' | string
+  identifier?: '***' | string
+  amount?: number
+  merchant: {
+    name: string
+    city: string
+    categoryCode?: '0000' | string
+    description?: string
+  }
+}
+
+// eslint-disable-next-line no-redeclare
+interface GeneratePayloadOptions {
+  pixKey: string
+  GUI?: string
+  countryCode?: 'BR' | string
+  transactionCurrency?: '986' | string
   txid?: '***' | string
+  amount?: number
   merchant: {
     name: string
     city: string
@@ -98,6 +115,15 @@ class Payload {
     )
     payload.push(TRANSACTION_CURRENCY)
 
+    if (options.amount) {
+      const stringPixAmount = options.amount.toFixed(2)
+      const TRANSACTION_AMOUNT = Field.stringify(
+        IDS.ID_TRANSACTION_AMOUNT,
+        stringPixAmount
+      )
+      payload.push(TRANSACTION_AMOUNT)
+    }
+
     const COUNTRY_CODE = Field.stringify(
       IDS.ID_COUNTRY_CODE,
       options.countryCode || 'BR'
@@ -117,7 +143,9 @@ class Payload {
     payload.push(MERCHANT_CITY)
 
     const ADDITIONAL_FIELD_INFORMATION =
-      this.generateAdditionalFieldInformation({ txid: options.txid })
+      this.generateAdditionalFieldInformation({
+        txid: options.txid || options.identifier
+      })
     payload.push(ADDITIONAL_FIELD_INFORMATION)
 
     const CRC16 = this.generateCRC16(payload.join(''))
@@ -135,7 +163,9 @@ class Payload {
       fields.push({ id: field.id, data: field.data, size: field.size })
     }
     return {
-      array() { return fields }
+      array() {
+        return fields
+      }
     }
   }
 }

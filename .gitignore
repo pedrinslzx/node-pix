@@ -3,3 +3,4 @@ build/
 coverage/
 yarn-error.log*
 yarn-debug.log*
+/teste.js
