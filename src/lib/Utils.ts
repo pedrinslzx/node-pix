@@ -27,7 +27,7 @@ class Utils {
     }
 
     // RETORNA CÓDIGO CRC16 DE 4 CARACTERES
-    return resultado.toString(16).toUpperCase()
+    return resultado.toString(16).toUpperCase().padStart(4, '0')
   }
 }
 

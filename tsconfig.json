@@ -11,7 +11,8 @@
     "declaration": true,
     "declarationMap": true,
     "removeComments": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "downlevelIteration": true
   },
   "exclude": ["node_modules", "__tests__"],
   "include": ["src"]
