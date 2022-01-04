@@ -1,3 +1,5 @@
+import { toDataURL, toString, toBuffer } from 'qrcode'
+
 import { IDS } from '../lib/constants'
 import { ParsedField } from '../lib/Field'
 import { GetFieldsConfig, DetailedField } from '../utils/GetFieldsConfig'
@@ -40,6 +42,25 @@ export class ParsedPayload {
 
   public toString() {
     return this.raw
+  }
+
+  public toQRCode(
+    type: 'terminal' | 'svg' | 'utf8' | 'dataURL' | 'buffer' = 'dataURL'
+  ) {
+    switch (type) {
+      case 'dataURL':
+        return toDataURL(this.raw)
+
+      case 'terminal':
+        return toString(this.raw, { type: 'terminal' })
+      case 'svg':
+        return toString(this.raw, { type: 'svg' })
+      case 'utf8':
+        return toString(this.raw, { type: 'utf8' })
+
+      case 'buffer':
+        return toBuffer(this.raw)
+    }
   }
 
   public getField(id: typeof IDS[keyof typeof IDS]) {

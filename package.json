@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/qrcode": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "cz-conventional-changelog": "3.3.0",
@@ -46,5 +47,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "qrcode": "^1.5.0"
+  }
 }

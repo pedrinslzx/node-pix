@@ -156,3 +156,45 @@ describe('Test Payload basic attributes', () => {
     expect(payload.pss).toBe('0123')
   })
 })
+
+describe('Test QRCode Feature', () => {
+  test('must return a Promise<string>', async () => {
+    const payload = generatePayload()
+    const dataURL = payload.toQRCode('dataURL')
+    const terminal = payload.toQRCode('terminal')
+    const svg = payload.toQRCode('svg')
+    const utf8 = payload.toQRCode('utf8')
+
+    expect(dataURL instanceof Promise).toBe(true)
+    expect(terminal instanceof Promise).toBe(true)
+    expect(svg instanceof Promise).toBe(true)
+    expect(utf8 instanceof Promise).toBe(true)
+  })
+  test('must return a Promise<string>', async () => {
+    const payload = generatePayload()
+    const dataURL = await payload.toQRCode('dataURL')
+    const terminal = await payload.toQRCode('terminal')
+    const svg = await payload.toQRCode('svg')
+    const utf8 = await payload.toQRCode('utf8')
+
+    expect(typeof dataURL).toBe('string')
+    expect(typeof terminal).toBe('string')
+    expect(typeof svg).toBe('string')
+    expect(typeof utf8).toBe('string')
+  })
+  test('must return the same url with `dataURL` or `undefined` as the type parameter', async () => {
+    const payload = generatePayload()
+    const qrCode = await payload.toQRCode()
+    const dataURL = await payload.toQRCode('dataURL')
+
+    expect(dataURL).toBe(qrCode)
+  })
+
+  test('must be return a buffer', async () => {
+    const payload = generatePayload()
+    const buffer = await payload.toQRCode('buffer')
+
+    expect(typeof buffer).toBe('object')
+    expect(Buffer.isBuffer(buffer)).toBe(true)
+  })
+})
