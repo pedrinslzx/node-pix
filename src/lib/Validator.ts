@@ -9,9 +9,7 @@ class Validator {
     if (typeof name !== 'string') {
       throw new ValidatorTypeError('name must be a valid string')
     }
-    if (name.length > 25) {
-      throw new ValidatorError('Name must be less than 25 characters')
-    }
+    name = name.slice(0, 25)
 
     return name
   }
@@ -41,11 +39,7 @@ class Validator {
     if (typeof label !== 'string') {
       throw new ValidatorTypeError('label must be a valid string')
     }
-    if (label.length > 25) {
-      throw new ValidatorError(
-        'Reference label must be less or equal than 25 characters'
-      )
-    }
+    label = label.slice(0, 25)
 
     return label
   }
@@ -54,9 +48,7 @@ class Validator {
     if (typeof city !== 'string') {
       throw new ValidatorTypeError('city must be a valid string')
     }
-    if (city.length > 15) {
-      throw new ValidatorError('City must be less or equal than 15 characters')
-    }
+    city = city.slice(0, 15)
     return Utils.formatCity(city)
   }
 }

@@ -16,15 +16,15 @@ test('should be throw TypeError when pass a undefined in arguments', () => {
 })
 
 test('should be throw Error when pass a invalid string with more caracteres ', () => {
-  expect(() =>
+  expect(
     Validator.validateName('1234567890123456789012345678901234567890')
-  ).toThrow(Error)
-  expect(() =>
+  ).toBe('1234567890123456789012345')
+  expect(
     Validator.validateCity('1234567890123456789012345678901234567890')
-  ).toThrow(Error)
-  expect(() =>
+  ).toBe('123456789012345')
+  expect(
     Validator.validateReferenceLabel('1234567890123456789012345678901234567890')
-  ).toThrow(Error)
+  ).toBe('1234567890123456789012345')
 })
 
 test('should be return the formatted value when pass a valid string ', () => {
