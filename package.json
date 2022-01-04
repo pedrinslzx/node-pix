@@ -1,6 +1,6 @@
 {
   "name": "pix-payload",
-  "version": "0.0.4",
+  "version": "1.5.0",
   "description": "Generate and parse the pix payload for QRCodes",
   "main": "./build/index.js",
   "module": "./build/index.js",
