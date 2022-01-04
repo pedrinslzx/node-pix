@@ -1,16 +1,30 @@
-import { Validator } from "../src/lib/Validator"
+import { Validator } from '../src/lib/Validator'
 
 test('should be throw TypeError when pass a undefined in arguments', () => {
-  expect(() => Validator.validateName(undefined as unknown as string)).toThrow(TypeError)
-  expect(() => Validator.validateCity(undefined as unknown as string)).toThrow(TypeError)
-  expect(() => Validator.validateReferenceLabel(undefined as unknown as string)).toThrow(TypeError)
-  expect(() => Validator.validatePayload(undefined as unknown as string)).toThrow(TypeError)
+  expect(() => Validator.validateName(undefined as unknown as string)).toThrow(
+    TypeError
+  )
+  expect(() => Validator.validateCity(undefined as unknown as string)).toThrow(
+    TypeError
+  )
+  expect(() =>
+    Validator.validateReferenceLabel(undefined as unknown as string)
+  ).toThrow(TypeError)
+  expect(() =>
+    Validator.validatePayload(undefined as unknown as string)
+  ).toThrow(TypeError)
 })
 
 test('should be throw Error when pass a invalid string with more caracteres ', () => {
-  expect(() => Validator.validateName('1234567890123456789012345678901234567890')).toThrow(Error)
-  expect(() => Validator.validateCity('1234567890123456789012345678901234567890')).toThrow(Error)
-  expect(() => Validator.validateReferenceLabel('1234567890123456789012345678901234567890')).toThrow(Error)
+  expect(() =>
+    Validator.validateName('1234567890123456789012345678901234567890')
+  ).toThrow(Error)
+  expect(() =>
+    Validator.validateCity('1234567890123456789012345678901234567890')
+  ).toThrow(Error)
+  expect(() =>
+    Validator.validateReferenceLabel('1234567890123456789012345678901234567890')
+  ).toThrow(Error)
 })
 
 test('should be return the formatted value when pass a valid string ', () => {

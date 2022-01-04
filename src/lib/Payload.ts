@@ -1,28 +1,9 @@
+import { ParsedPayload } from '../classes/ParsedPayload'
 import { DEFAULT_MERCHANT_GUI, DEFAULT_TXID, IDS } from './constants'
-import { Field, ParsedField } from './Field'
+import { Field } from './Field'
 import { Utils } from './Utils'
 
-interface ParsedPayload {
-  array(): Omit<ParsedField, 'rest'>[]
-}
-
-interface GeneratePayloadOptions {
-  pixKey: string
-  GUI?: string
-  countryCode?: 'BR' | string
-  transactionCurrency?: '986' | string
-  identifier?: '***' | string
-  amount?: number
-  merchant: {
-    name: string
-    city: string
-    categoryCode?: '0000' | string
-    description?: string
-  }
-}
-
-// eslint-disable-next-line no-redeclare
-interface GeneratePayloadOptions {
+export interface GeneratePayloadOptions {
   pixKey: string
   GUI?: string
   countryCode?: 'BR' | string
@@ -34,6 +15,7 @@ interface GeneratePayloadOptions {
     city: string
     categoryCode?: '0000' | string
     description?: string
+    pss?: string
   }
 }
 
@@ -41,11 +23,13 @@ class Payload {
   private generateMerchantAccountInformation({
     GUI = DEFAULT_MERCHANT_GUI,
     key,
-    description
+    description,
+    pss
   }: {
     GUI?: string
     key: string
     description?: string
+    pss?: string
   }): string {
     const MERCHANT_ACCOUNT_GUI = Field.stringify(
       IDS.ID_MERCHANT_ACCOUNT_INFORMATION_GUI,
@@ -61,10 +45,16 @@ class Payload {
         description
       )
       : ''
+    const MERCHANT_ACCOUNT_PSS = pss
+      ? Field.stringify(IDS.ID_MERCHANT_ACCOUNT_INFORMATION_PSS, pss)
+      : ''
 
     return Field.stringify(
       IDS.ID_MERCHANT_ACCOUNT_INFORMATION,
-      MERCHANT_ACCOUNT_GUI + MERCHANT_ACCOUNT_KEY + MERCHANT_ACCOUNT_DESCRIPTION
+      MERCHANT_ACCOUNT_GUI +
+        MERCHANT_ACCOUNT_KEY +
+        MERCHANT_ACCOUNT_DESCRIPTION +
+        MERCHANT_ACCOUNT_PSS
     )
   }
 
@@ -87,7 +77,7 @@ class Payload {
     return Field.stringify(IDS.ID_CRC16, CRC16)
   }
 
-  public generate(options: GeneratePayloadOptions): string {
+  public generate(options: GeneratePayloadOptions): ParsedPayload {
     const payload = ['']
 
     const PAYLOAD_FORMAT_INDICATOR = Field.stringify(
@@ -99,7 +89,8 @@ class Payload {
     const MERCHANT_ACCOUNT = this.generateMerchantAccountInformation({
       key: options.pixKey,
       GUI: options.GUI,
-      description: options.merchant.description
+      description: options.merchant.description,
+      pss: options.merchant.pss
     })
     payload.push(MERCHANT_ACCOUNT)
 
@@ -144,29 +135,22 @@ class Payload {
 
     const ADDITIONAL_FIELD_INFORMATION =
       this.generateAdditionalFieldInformation({
-        txid: options.txid || options.identifier
+        txid: options.txid
       })
     payload.push(ADDITIONAL_FIELD_INFORMATION)
 
     const CRC16 = this.generateCRC16(payload.join(''))
     payload.push(CRC16)
 
-    return payload.join('')
+    const parsedPayload = this.parse(payload.join(''))
+
+    return parsedPayload
   }
 
   public parse(payload: string): ParsedPayload {
-    const fields: Omit<ParsedField, 'rest'>[] = []
-    let payloadRest: string | null = payload
-    while (payloadRest !== null) {
-      const field = Field.parse(payloadRest)
-      payloadRest = field.rest
-      fields.push({ id: field.id, data: field.data, size: field.size })
-    }
-    return {
-      array() {
-        return fields
-      }
-    }
+    const fields = Field.parse(payload)
+
+    return new ParsedPayload(payload, fields)
   }
 }
 

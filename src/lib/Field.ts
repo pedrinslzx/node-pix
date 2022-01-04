@@ -1,15 +1,13 @@
 import { PIXError } from '../utils/Errors'
 import { FIELD_CONFIG, IDS } from './constants'
 
-export interface ParsedInnerField {
-  id: string
-  size: number
-}
-
 export interface ParsedField {
   id: string
   size: number
-  data: string | ParsedInnerField[]
+  data: string | ParsedField[]
+}
+
+export interface ParsedFieldWithRest extends ParsedField {
   rest: string | null
 }
 
@@ -20,32 +18,41 @@ class Field {
    * @param data Data from this field
    * @returns Parsed field
    */
-  public parse(field: string): ParsedField {
-    const id = field.substr(0, 2)
-    if (!Object.values(IDS).includes(id)) throw new PIXError('this id is invalid')
-    const config = FIELD_CONFIG[id]
+  public parseOne(field: string): ParsedFieldWithRest {
+    const id = field.substring(0, 2)
+    const size = field.substring(2, 4)
+    if (!Object.values(IDS).includes(id)) {
+      throw new PIXError(`this id<${id}> is invalid`)
+    }
 
-    const size = Number(field.substr(2, 2))
-    let data: string | ParsedInnerField[] = field.substr(4, size)
-    if (config && config.hasBody) data = this.parseAll(data)
-    const rest = field.substr(4 + size) || null
+    const config = FIELD_CONFIG.find(fieldConfig => fieldConfig.id === id)
+
+    let data: string | ParsedField[] = field.substring(4, 4 + Number(size))
+    if (config && config.hasBody) data = this.parse(data)
+    let rest: string | null = field.replace(
+      field.substring(0, 4 + Number(size)),
+      ''
+    )
+    if (rest === '') rest = null
 
     return {
       id,
-      size,
+      size: Number(size),
       data,
       rest
     }
   }
 
-  private parseAll(field: string): ParsedInnerField[] {
+  public parse(field: string): ParsedField[] {
     const fields = []
     let payloadRest: string | null = field
-    while (payloadRest !== null) {
-      const field = this.parse(payloadRest)
+
+    while (typeof payloadRest === 'string' && payloadRest.length > 0) {
+      const field = this.parseOne(payloadRest)
       payloadRest = field.rest
       fields.push({ id: field.id, data: field.data, size: field.size })
     }
+
     return fields
   }
 
@@ -56,7 +63,9 @@ class Field {
    * @returns Stringified field
    */
   public stringify(id: string, data: string): string {
-    if (!Object.values(IDS).includes(id)) throw new PIXError('this id is invalid')
+    if (!Object.values(IDS).includes(id)) {
+      throw new PIXError('this id is invalid')
+    }
     const size = String(data.length).padStart(2, '0')
 
     return `${id}${size}${data}`
