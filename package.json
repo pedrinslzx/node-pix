@@ -1,5 +1,5 @@
 {
-  "name": "pix-payload",
+  "name": "node-pix",
   "version": "1.5.1",
   "description": "Generate and parse the pix payload for QRCodes",
   "main": "./build/index.js",
